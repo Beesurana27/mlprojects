@@ -1,5 +1,7 @@
 import os
 import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 from src.exception import CustomException
 from src.logger import logging
 import pandas as pd
@@ -24,15 +26,15 @@ class DataIngestion:
 
         logging.info("entered thed ara ingestion method")
         try:
-            df=pd.read_csv("mlprojects\notebook\data\stud.csv") 
+            df=pd.read_csv('notebook/data/stud.csv')
             logging.info("reading the dataframe")
 
-            os.makedirs(os.path.dirnamae(self.ingestion_config.train_data_path),exist_ok=True)# creating the path using train data for artifacts
+            os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)# creating the path using train data for artifacts
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
            
            
             logging.info(" train test split  ")
-            train_set,test_set=train_test_split(df,test_size=0.,random_state=42)
+            train_set,test_set=train_test_split(df,test_size=0.2,random_state=42)
 
             train_set.to_csv(self.ingestion_config.train_data_path,index=True,header=True)
             test_set.to_csv(self.ingestion_config.test_data_path,index=True,header=True)
